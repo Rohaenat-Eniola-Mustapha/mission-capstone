@@ -198,7 +198,10 @@ export function SiteDetail() {
 
           <div className="lg:col-span-1">
             <div className="sticky top-4">
-              <AIRecommendationPanel siteId={site.id} />
+              <AIRecommendationPanel
+                siteId={site.id}
+                siteLocation={site.latitude && site.longitude ? { lat: site.latitude, lng: site.longitude } : undefined}
+              />
             </div>
           </div>
         </div>

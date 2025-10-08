@@ -67,8 +67,17 @@ export async function submitFeedback(data: {
   return response.json();
 }
 
-export async function getAIRecommendation(siteId: string): Promise<AIRecommendation> {
-  const response = await fetch(`${API_BASE_URL}/ai-recommend?site_id=${siteId}`, {
+export async function getAIRecommendation(
+  siteId: string,
+  userLocation?: { lat: number; lng: number }
+): Promise<AIRecommendation> {
+  let url = `${API_BASE_URL}/ai-recommend?site_id=${siteId}`;
+
+  if (userLocation) {
+    url += `&user_lat=${userLocation.lat}&user_lng=${userLocation.lng}`;
+  }
+
+  const response = await fetch(url, {
     headers: getHeaders(),
   });
 

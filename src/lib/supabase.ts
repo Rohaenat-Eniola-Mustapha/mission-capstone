@@ -44,11 +44,34 @@ export interface Feedback {
   };
 }
 
+export interface RouteSuggestion {
+  destination: string;
+  distance?: string;
+  duration?: string;
+  via?: string;
+}
+
+export interface AlternativeSite {
+  id: string;
+  name: string;
+  state: string;
+  location: {
+    lat: number;
+    lng: number;
+  };
+}
+
 export interface AIRecommendation {
   site_id: string;
   site_name: string;
+  site_location?: {
+    lat: number;
+    lng: number;
+  };
   suggestion: string;
   confidence: number;
+  route_suggestions?: RouteSuggestion[];
+  alternative_sites?: AlternativeSite[];
   recommendation_id?: string;
   generated_at: string;
 }
