@@ -27,10 +27,10 @@ npm install
 
 Create a .env file in the root directory and include:
 
-VITE_SUPABASE_URL=<your_supabase_project_url>
-VITE_SUPABASE_ANON_KEY=<your_supabase_anon_key>
-VITE_GOOGLE_MAPS_API_KEY=<optional: for interactive route maps>
-OPENAI_API_KEY=<optional: only if you want real AI recommendations>
+VITE_SUPABASE_URL=<>
+VITE_SUPABASE_ANON_KEY=<>
+VITE_GOOGLE_MAPS_API_KEY=<>
+OPENAI_API_KEY=<>
 
 4. Run the development server
 npm run dev
@@ -105,4 +105,4 @@ Deploy the backend to Render or use Supabase Functions.
 Link the database URL and keys in the .env file.
 
 Test the live site by visiting the Vercel deployment URL.
-\n\n## Google Maps Integration\n\nInfraTour now includes **optional** Google Maps integration for enhanced route recommendations:\n\n### Features\n- **Interactive route maps** from user location to tourist sites\n- **Turn-by-turn directions** with accurate distance and duration\n- **Alternative route suggestions** when infrastructure alerts exist\n- **Automatic distance calculations** in AI recommendations\n\n### Setup (Optional)\n\nGoogle Maps is **completely optional**. The app works fully without it, using calculated estimates for distance and duration.\n\nTo enable interactive maps:\n\n1. Get a Google Maps API key from [Google Cloud Console](https://console.cloud.google.com/)\n2. Enable these APIs:\n   - Maps JavaScript API\n   - Directions API\n3. Add to your `.env` file:\n   ```\n   VITE_GOOGLE_MAPS_API_KEY=your_api_key_here\n   ```\n4. Restart the dev server\n\n**See [GOOGLE_MAPS_SETUP.md](./GOOGLE_MAPS_SETUP.md) for detailed setup instructions.**\n\n### Cost\n- Google provides **$200 free credit per month**\n- Typical usage for small-medium site: **$0/month** (within free tier)\n- No credit card required for testing\n\n### Without Google Maps\n\nIf you don't configure Google Maps, the app still provides:\n- Distance estimates using Haversine formula\n- Duration calculations based on average speed\n- All AI recommendations with route information\n- Full functionality except interactive maps\n\n
+\n\n## Google Maps Integration\n\nInfraTour now includes **optional** Google Maps integration for enhanced route recommendations:\n\n### Features\n- **Interactive route maps** from user location to tourist sites\n- **Turn-by-turn directions** with accurate distance and duration\n- **Alternative route suggestions** when infrastructure alerts exist\n- **Automatic distance calculations** in AI recommendations\n\n### Setup (Optional)\n\nGoogle Maps is **completely optional**. The app works fully without it, using calculated estimates for distance and duration.\n\nTo enable interactive maps:\n\n1. Get a Google Maps API key from [Google Cloud Console](https://console.cloud.google.com/)\n2. Enable these APIs:\n   - Maps JavaScript API\n   - Directions API\n3. Add to your `.env` file:\n   ```\n   VITE_GOOGLE_MAPS_API_KEY=your_api_key_here\n   ```\n4. Restart the dev server\n\n If you don't configure Google Maps, the app still provides:\n- Distance estimates using Haversine formula\n- Duration calculations based on average speed\n- All AI recommendations with route information\n- Full functionality except interactive maps\n\n
