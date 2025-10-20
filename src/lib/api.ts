@@ -29,9 +29,10 @@ export async function fetchSiteById(id: string) {
     .from('tourist_sites')
     .select('*')
     .eq('id', id)
-    .single();
+    .maybeSingle();
 
   if (siteError) throw new Error(siteError.message);
+  if (!site) throw new Error('Site not found');
 
   // 2. Get infrastructure alerts for this site
   const { data: alerts, error: alertsError } = await supabase
@@ -54,19 +55,25 @@ export async function fetchSiteById(id: string) {
   return { site, alerts, feedback };
 }
 
-// Submit feedback to the backend
-export async function submitFeedback(siteId: string, message: string, rating?: number, userId?: string) {
+export interface SubmitFeedbackParams {
+  site_id: string;
+  message: string;
+  rating?: number;
+  user_id?: string;
+}
+
+export async function submitFeedback(params: SubmitFeedbackParams) {
   try {
     const { data, error } = await supabase
       .from('feedback')
       .insert({
-        site_id: siteId,
-        message,
-        rating: rating || null,
-        user_id: userId || null,
+        site_id: params.site_id,
+        message: params.message,
+        rating: params.rating || null,
+        user_id: params.user_id || null,
       })
       .select()
-      .single();
+      .maybeSingle();
 
     if (error) throw error;
     return data;
