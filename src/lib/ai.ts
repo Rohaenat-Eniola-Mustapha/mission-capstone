@@ -29,6 +29,6 @@ export async function getAIRecommendation(siteId: string) {
       "Based on recent data, this destination offers stable infrastructure and is recommended for cultural tourism.",
     confidence: randomConfidence,
     generated_at: new Date().toISOString(),
-    alternative_sites: mockAlternatives.slice(0, 2), // ✅ all have location
+    alternative_sites: mockAlternatives.slice(0, 2),
   };
 }
