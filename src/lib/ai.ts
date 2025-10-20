@@ -13,6 +13,7 @@ export async function getAIRecommendation(siteId: string) {
   ];
 
   return {
+    site_id: siteId, 
     site_name: `Tourist Site ${siteId}`,
     suggestion: mockSuggestions[Math.floor(Math.random() * mockSuggestions.length)],
     confidence: randomConfidence,

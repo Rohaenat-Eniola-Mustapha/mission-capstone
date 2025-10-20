@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
 import { MapPin, AlertTriangle } from 'lucide-react';
-import { AlertBadge } from './AlertBadge';
 import type { TouristSite } from '../lib/supabase';
 
 interface SiteCardProps {
@@ -8,7 +7,9 @@ interface SiteCardProps {
 }
 
 export function SiteCard({ site }: SiteCardProps) {
-  const hasAlerts = site.alert_count && site.alert_count > 0;
+  const alertCount = site.alert_count ?? 0;
+  const hasAlerts = alertCount > 0;
+
 
   return (
     <Link
@@ -30,7 +31,12 @@ export function SiteCard({ site }: SiteCardProps) {
         {hasAlerts && (
           <div className="absolute top-3 right-3 bg-red-500 text-white px-3 py-1 rounded-full text-xs font-semibold flex items-center shadow-lg">
             <AlertTriangle className="h-3 w-3 mr-1" />
-            {site.alert_count} Alert{site.alert_count > 1 ? 's' : ''}
+            {hasAlerts && (
+              <div className="absolute top-3 right-3 bg-red-500 text-white px-3 py-1 rounded-full text-xs font-semibold flex items-center shadow-lg">
+                <AlertTriangle className="h-3 w-3 mr-1" />
+                {alertCount} Alert{alertCount > 1 ? 's' : ''}
+              </div>
+            )}
           </div>
         )}
       </div>
