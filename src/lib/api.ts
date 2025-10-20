@@ -53,3 +53,25 @@ export async function fetchSiteById(id: string) {
 
   return { site, alerts, feedback };
 }
+
+// Submit feedback to the backend
+export async function submitFeedback(siteId: string, message: string, rating?: number, userId?: string) {
+  try {
+    const { data, error } = await supabase
+      .from('feedback')
+      .insert({
+        site_id: siteId,
+        message,
+        rating: rating || null,
+        user_id: userId || null,
+      })
+      .select()
+      .single();
+
+    if (error) throw error;
+    return data;
+  } catch (error: any) {
+    console.error('Error submitting feedback:', error.message);
+    throw new Error('Failed to submit feedback');
+  }
+}
