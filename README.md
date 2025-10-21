@@ -105,4 +105,5 @@ Deploy the backend to Render or use Supabase Functions.
 Link the database URL and keys in the .env file.
 
 Test the live site by visiting the Vercel deployment URL.
-\n\n## Google Maps Integration\n\nInfraTour now includes **optional** Google Maps integration for enhanced route recommendations:\n\n### Features\n- **Interactive route maps** from user location to tourist sites\n- **Turn-by-turn directions** with accurate distance and duration\n- **Alternative route suggestions** when infrastructure alerts exist\n- **Automatic distance calculations** in AI recommendations\n\n### Setup (Optional)\n\nGoogle Maps is **completely optional**. The app works fully without it, using calculated estimates for distance and duration.\n\nTo enable interactive maps:\n\n1. Get a Google Maps API key from [Google Cloud Console](https://console.cloud.google.com/)\n2. Enable these APIs:\n   - Maps JavaScript API\n   - Directions API\n3. Add to your `.env` file:\n   ```\n   VITE_GOOGLE_MAPS_API_KEY=your_api_key_here\n   ```\n4. Restart the dev server\n\n If you don't configure Google Maps, the app still provides:\n- Distance estimates using Haversine formula\n- Duration calculations based on average speed\n- All AI recommendations with route information\n- Full functionality except interactive maps\n\n
+
+https://mission-capstone-kappa.vercel.app/
