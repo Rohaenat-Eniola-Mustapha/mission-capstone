@@ -1,30 +1,28 @@
 import { supabase } from './supabase';
 
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
+const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
+
 // Fetch all tourist sites
 export async function fetchSites() {
-  const { data, error } = await supabase
-    .from('tourist_sites')
-    .select('*')
-    .order('created_at', { ascending: false });
-
-  if (error) throw new Error(error.message);
-  return data;
+  const response = await fetch(`${SUPABASE_URL}/functions/v1/get-sites`, {
+    headers: { apikey: SUPABASE_ANON_KEY },
+  });
+  if (!response.ok) throw new Error('Failed to fetch sites');
+  return await response.json();
 }
 
 // Fetch all alerts
 export async function fetchAlerts() {
-  const { data, error } = await supabase
-    .from('infrastructure_alerts')
-    .select('*')
-    .order('created_at', { ascending: false });
-
-  if (error) throw new Error(error.message);
-  return data;
+  const response = await fetch(`${SUPABASE_URL}/functions/v1/get-alerts`, {
+    headers: { apikey: SUPABASE_ANON_KEY },
+  });
+  if (!response.ok) throw new Error('Failed to fetch alerts');
+  return await response.json();
 }
 
 // Fetch site details by ID with alerts + feedback joined
 export async function fetchSiteById(id: string) {
-  // 1. Get the site itself
   const { data: site, error: siteError } = await supabase
     .from('tourist_sites')
     .select('*')
@@ -34,7 +32,6 @@ export async function fetchSiteById(id: string) {
   if (siteError) throw new Error(siteError.message);
   if (!site) throw new Error('Site not found');
 
-  // 2. Get infrastructure alerts for this site
   const { data: alerts, error: alertsError } = await supabase
     .from('infrastructure_alerts')
     .select('*')
@@ -43,7 +40,6 @@ export async function fetchSiteById(id: string) {
 
   if (alertsError) throw new Error(alertsError.message);
 
-  // 3. Get feedback for this site
   const { data: feedback, error: feedbackError } = await supabase
     .from('feedback')
     .select('*, users(name, email)')
@@ -55,6 +51,7 @@ export async function fetchSiteById(id: string) {
   return { site, alerts, feedback };
 }
 
+// Define feedback type
 export interface SubmitFeedbackParams {
   site_id: string;
   message: string;
@@ -62,21 +59,24 @@ export interface SubmitFeedbackParams {
   user_id?: string;
 }
 
+// FIXED: Submit feedback using Edge Function
 export async function submitFeedback(params: SubmitFeedbackParams) {
   try {
-    const { data, error } = await supabase
-      .from('feedback')
-      .insert({
-        site_id: params.site_id,
-        message: params.message,
-        rating: params.rating || null,
-        user_id: params.user_id || null,
-      })
-      .select()
-      .maybeSingle();
+    const response = await fetch(`${SUPABASE_URL}/functions/v1/submit-feedback`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        apikey: SUPABASE_ANON_KEY,
+      },
+      body: JSON.stringify(params),
+    });
 
-    if (error) throw error;
-    return data;
+    if (!response.ok) {
+      const text = await response.text();
+      throw new Error(text || 'Failed to submit feedback');
+    }
+
+    return await response.json();
   } catch (error: any) {
     console.error('Error submitting feedback:', error.message);
     throw new Error('Failed to submit feedback');
