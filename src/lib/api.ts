@@ -5,10 +5,10 @@ const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
 // Fetch all tourist sites
 export async function fetchSites() {
-  const response = await fetch(${SUPABASE_URL}/functions/v1/get-sites, {
+  const response = await fetch(`${SUPABASE_URL}/functions/v1/get-sites`, {
     headers: {
       apikey: SUPABASE_ANON_KEY,
-      Authorization: Bearer ${SUPABASE_ANON_KEY},
+      Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
     },
   });
 
@@ -18,10 +18,10 @@ export async function fetchSites() {
 
 // Fetch all alerts
 export async function fetchAlerts() {
-  const response = await fetch(${SUPABASE_URL}/functions/v1/get-alerts, {
+  const response = await fetch(`${SUPABASE_URL}/functions/v1/get-alerts`, {
     headers: {
       apikey: SUPABASE_ANON_KEY,
-      Authorization: Bearer ${SUPABASE_ANON_KEY},
+      Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
     },
   });
 
@@ -70,12 +70,12 @@ export interface SubmitFeedbackParams {
 // Submit feedback using Edge Function
 export async function submitFeedback(params: SubmitFeedbackParams) {
   try {
-    const response = await fetch(${SUPABASE_URL}/functions/v1/submit-feedback, {
+    const response = await fetch(`${SUPABASE_URL}/functions/v1/submit-feedback`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         apikey: SUPABASE_ANON_KEY,
-        Authorization: Bearer ${SUPABASE_ANON_KEY},
+        Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
       },
       body: JSON.stringify(params),
     });
