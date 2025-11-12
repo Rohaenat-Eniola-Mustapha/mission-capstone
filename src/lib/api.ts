@@ -16,8 +16,6 @@ export async function fetchAlerts() {
   const { data, error } = await supabase
     .from('infrastructure_alerts')
     .select('*')
-    .eq('is_active', true)
-    .order('severity', { ascending: false })
     .order('created_at', { ascending: false });
 
   if (error) throw new Error(error.message);
