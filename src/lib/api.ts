@@ -1,32 +1,27 @@
 import { supabase } from './supabase';
 
-const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
-const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
-
 // Fetch all tourist sites
 export async function fetchSites() {
-  const response = await fetch(`${SUPABASE_URL}/functions/v1/get-sites`, {
-    headers: {
-      apikey: SUPABASE_ANON_KEY,
-      Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
-    },
-  });
+  const { data, error } = await supabase
+    .from('tourist_sites')
+    .select('*')
+    .order('name', { ascending: true });
 
-  if (!response.ok) throw new Error('Failed to fetch sites');
-  return await response.json();
+  if (error) throw new Error(error.message);
+  return data;
 }
 
 // Fetch all alerts
 export async function fetchAlerts() {
-  const response = await fetch(`${SUPABASE_URL}/functions/v1/get-alerts`, {
-    headers: {
-      apikey: SUPABASE_ANON_KEY,
-      Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
-    },
-  });
+  const { data, error } = await supabase
+    .from('infrastructure_alerts')
+    .select('*')
+    .eq('is_active', true)
+    .order('severity', { ascending: false })
+    .order('created_at', { ascending: false });
 
-  if (!response.ok) throw new Error('Failed to fetch alerts');
-  return await response.json();
+  if (error) throw new Error(error.message);
+  return data;
 }
 
 // Fetch site details by ID with alerts + feedback joined
