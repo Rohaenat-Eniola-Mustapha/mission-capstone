@@ -22,7 +22,7 @@ export async function fetchAlerts() {
   return data;
 }
 
-// Fetch site details by ID with alerts + feedback joined
+// Fetch site details by ID with alerts and feedback joined
 export async function fetchSiteById(id: string) {
   const { data: site, error: siteError } = await supabase
     .from('tourist_sites')
