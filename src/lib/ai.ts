@@ -1,5 +1,11 @@
-export async function getAIRecommendation(siteId: string) {
-  const randomConfidence = Math.random() * 0.3 + 0.7;
+import type { AIRecommendation } from './supabase';
+
+export async function getAIRecommendation(siteId: string): Promise<AIRecommendation> {
+  const mockSuggestions = [
+    "This site is ideal for cultural tourism and weekend visits due to its accessibility and strong local engagement.",
+    "The area shows steady visitor growth. Consider enhancing nearby amenities to attract more tourists.",
+    "Recommended for eco-tourism due to its scenic surroundings and moderate infrastructure conditions.",
+  ];
 
   const mockAlternatives = [
     {
@@ -12,7 +18,7 @@ export async function getAIRecommendation(siteId: string) {
       id: "2",
       name: "Yankari Game Reserve",
       state: "Bauchi",
-      location: { lat: 9.7500, lng: 10.5000 },
+      location: { lat: 9.75, lng: 10.5 },
     },
     {
       id: "3",
@@ -22,13 +28,17 @@ export async function getAIRecommendation(siteId: string) {
     },
   ];
 
+  const randomConfidence = Math.random() * 0.3 + 0.7;
+
+  const suggestion =
+    mockSuggestions[Math.floor(Math.random() * mockSuggestions.length)];
+
   return {
     site_id: siteId,
     site_name: `Tourist Site ${siteId}`,
-    suggestion:
-      "Based on recent data, this destination offers stable infrastructure and is recommended for cultural tourism.",
+    suggestion,
     confidence: randomConfidence,
     generated_at: new Date().toISOString(),
-    alternative_sites: mockAlternatives.slice(0, 2), // ✅ all have location
+    alternative_sites: mockAlternatives.slice(0, 2),
   };
 }
