@@ -1,4 +1,7 @@
 import { supabase } from './supabase';
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
+const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
+const SUPABASE_SERVICE_ROLE_KEY = import.meta.env.VITE_SUPABASE_SERVICE_ROLE_KEY;
 
 // Fetch all tourist sites
 export async function fetchSites() {
@@ -67,8 +70,8 @@ export async function submitFeedback(params: SubmitFeedbackParams) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        apikey: SUPABASE_ANON_KEY,
-        Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+        apikey: SUPABASE_ANON_KEY, 
+        Authorization: `Bearer ${SUPABASE_SERVICE_ROLE_KEY}`, // FIXED!!
       },
       body: JSON.stringify(params),
     });
@@ -82,5 +85,5 @@ export async function submitFeedback(params: SubmitFeedbackParams) {
   } catch (error: any) {
     console.error('Error submitting feedback:', error.message);
     throw new Error('Failed to submit feedback');
-  }
+  }
 }
